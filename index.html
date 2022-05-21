@@ -1,28 +1,28 @@
+<meta charset="UTF-8">
 <html>
-	<head>
-		<title>Base Converter</title>
-		<script src="convert.js"></script>
-	</head>
-	<body>
-		<h1>Base Converter</h1>
-		<h2>Input</h2>
-		<textarea id="input" name="input" rows="4" cols="50"></textarea>
-		<br><br>
-		<label for="title">Encoding type: </label>
-		<select id="base" name="base">
-			<option value="ascii" selected>ASCII</option>
-			<option value="hex">Hexadecimal</option>
-			<option value="bin">Binary</option>
-			<option value="base64">Base64</option>
-		</select>
+    <head>
+        <title>Base Converter</title>
+        <script src="convert.js"></script>
+    </head>
+    <body>
+        <h1>Base Converter</h1>
+        <h2>Input</h2>
+        <textarea id="input" name="input" rows="4" cols="50"></textarea>
+        <br><br>
+        <label for="title">Encoding type: </label>
+        <!-- https://stackoverflow.com/questions/5024056/how-to-pass-parameters-on-onchange-of-html-select
+        -->
+        <select id="base" name="base" onchange="updateBase(this)">
+            <option value="ascii" selected>ASCII</option>
+            <option value="hex">Hexadecimal</option>
+            <option value="bin">Binary</option>
+        </select>
 
-		<h2>Output</h2>
-		<div id="ascii">ASCII output here</div>
-		<br>
-		<div id="hex">Hexadecimal output here</div>
-		<br>
-		<div id="bin">Binary output here</div>
-		<br>
-		<div id="base64">Base64 output here</div>
-	</body>
+        <h2>Output</h2>
+        <div id="ascii">ASCII output here</div>
+        <br>
+        <div id="hex">Hexadecimal output here</div>
+        <br>
+        <div id="bin">Binary output here</div>
+    </body>
 </html>
