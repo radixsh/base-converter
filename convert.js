@@ -8,7 +8,10 @@ function asciiToHex(ascii, hex_output_element) {
 }
 function asciiToBin(ascii, bin_output_element) {
 	// https://www.sitepoint.com/community/t/how-to-convert-ascii-values-to-8-bit-binary-in-javascript/363447/3
-	bin_output_element.innerHTML += ascii.toString(2).padStart(8, '0');
+	// https://stackoverflow.com/questions/21354235/converting-binary-to-text-using-javascript
+	var bin = ascii.toString(2);
+	bin = bin.padStart(8, '0');
+	bin_output_element.innerHTML += bin; 
 }
 
 function hexToAscii(hex, ascii_output_element) {
@@ -20,11 +23,12 @@ function hexToAscii(hex, ascii_output_element) {
 	ascii_output_element.innerHTML += str;
 }
 function hexToBin(hex, bin_output_element) {
-	var bin = parseInt(hex, 16).toString(2))
+	var bin = parseInt(hex, 16).toString(2);
 	bin_output_element.innerHTML += bin.padStart(8, '0');
 }
 
 function binToAscii(bin, ascii_output_element) {
+	// https://stackoverflow.com/questions/21354235/converting-binary-to-text-using-javascript
 	ascii_output_element.innerHTML += parseInt(bin, 2).toString(10);
 }
 function binToHex(bin, hex_output_element) {
@@ -32,10 +36,10 @@ function binToHex(bin, hex_output_element) {
 	hex_output_element.innerHTML += parseInt(bin, 2).toString(16);
 }
 
-
-function updateBase(selection) {
-	var base = selection.value;
+var base_select = document.getElementById("base");
+base_select.onchange = function () {
 	var input = document.getElementById("input");
+	var base = document.getElementById("base").value;
 
 	if (base == "ascii") {
 		var hex_output_element = document.getElementById("hex");
