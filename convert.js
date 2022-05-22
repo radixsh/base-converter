@@ -12,14 +12,15 @@ document.addEventListener("DOMContentLoaded", function() {
             bin_output_element.innerHTML = convert(asciiToHex(text), 16, 2);
         } else if (base.value == "hex") {
             var ascii_output_element = document.getElementById("ascii");
-            ascii_output_element.innerHTML = hexToAscii(text);
+            // elephant
+            ascii_output_element.innerHTML = codesToChars(text);
             var hex_output_element = document.getElementById("hex");
             hex_output_element.innerHTML = "[Irrelevant]"
             var bin_output_element = document.getElementById("bin");
             bin_output_element.innerHTML = convert(text, 16, 2);
         } else if (base.value == "bin") {
             var ascii_output_element = document.getElementById("ascii");
-            ascii_output_element.innerHTML = hexToAscii(parseInt(text, 2));
+            ascii_output_element.innerHTML = codesToChars(parseInt(text, 2));
             var hex_output_element = document.getElementById("hex");
             hex_output_element.innerHTML = convert(text, 2, 16);
             var bin_output_element = document.getElementById("bin");
@@ -32,10 +33,10 @@ function convert(number, original_base, new_base) {
     return parseInt(number, original_base).toString(new_base);
 }
 
-function hexToAscii(hex_string) {
+function codesToChars(hex_string) {
     // split hex string into pairs: https://stackoverflow.com/questions/55549405/split-string-every-2-character-into-array
-    var pairs = hex_string.match(/.{1,2}/g); 
-    return hex_string.fromCharCode(pairs);
+    var pairs = hex_string.toString().match(/.{1,2}/g); 
+    return String.fromCharCode(pairs);
 }
 
 function asciiToHex(ascii) {

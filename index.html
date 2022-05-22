@@ -10,14 +10,15 @@
         <h2>Input</h2>
         <textarea id="input" name="input" rows="4" cols="50"></textarea>
         <br><br>
-        Encoding type: 
+        Encoding of input: 
         <select id="base" name="base">
-            <option value="ascii" selected>ASCII</option>
+            <option value="nothing" disabled selected>Select</option>
+            <option value="ascii">ASCII</option>
             <option value="hex">Hexadecimal</option>
             <option value="bin">Binary</option>
         </select>
 
-        <h2>Output</h2>
+        <h2>Output, converted to different forms</h2>
         ASCII output here: <div id="ascii"></div>
         <br>
         Hexadecimal output here: <div id="hex"></div>
