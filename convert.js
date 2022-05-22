@@ -1,11 +1,42 @@
+var input = document.getElementById("input");
+
+document.getElementById("base").onchange = function () {
+	var base = document.getElementById("base").value;
+	if (base == "ascii") {
+		// ascii --> hex
+		var hex_output_element = document.getElementById("hex");
+		hex_output_element.innerHTML += asciiToHex(ascii);
+        var bin_output_element = document.getElementById("bin");
+        bin_output_element.innerHTML += convert(asciiToHex(ascii), 16, 2);
+		// ascii --> bin
+	} else if (base == "hex") {
+		// hex --> bin, so parseInt(16) then toString(2)
+		// bin_output_element.innerHTML += parseInt(input, 16).toString(2);
+        var bin_output_element = document.getElementById("bin");
+        bin_output_element.innerHTML += convert(input, 16, 2);
+		// hex --> ascii
+		var ascii_output_element = document.getElementById("ascii");
+        ascii_output_element.innerHTML += convert(asciiToHex(input), 16, 2);
+	} else if (base == "bin") {
+        document.getElementById("hex").innerHTML += convert(input, 2, 16);
+
+
+    }
+}
+
+function convert(number, original_base, new_base) {
+	return parseInt(number, original_base).toString(new_base);
+}
+
 function asciiToHex(ascii, hex_output_element) {
 	var hex_values = [];
 	for (var n = 0, l = ascii.length; n < l; n ++) {
 		var hex = Number(ascii.charCodeAt(n)).toString(16);
 		hex_values.push(hex);
 	}
-	hex_output_element.innerHTML += hex_values.join('');
+	return hex_values.join('');
 }
+/*
 function asciiToBin(ascii, bin_output_element) {
 	// https://www.sitepoint.com/community/t/how-to-convert-ascii-values-to-8-bit-binary-in-javascript/363447/3
 	// https://stackoverflow.com/questions/21354235/converting-binary-to-text-using-javascript
@@ -60,8 +91,9 @@ base_select.onchange = function () {
 		console.log("how did we get here...")
 	}
 }
+*/
 
-// https://stackoverflow.com/questions/3842614/how-do-i-call-a-javascript-function-on-page-load
-document.addEventListener("DOMContentLoaded", function() {
+	// https://stackoverflow.com/questions/3842614/how-do-i-call-a-javascript-function-on-page-load
+	document.addEventListener("DOMContentLoaded", function() {
 
-});
+	});
