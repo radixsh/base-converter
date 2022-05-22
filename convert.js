@@ -27,11 +27,12 @@ function convert(number, original_base, new_base) {
         // populate arr with bytes
         // iterate through arr and translate each one into the new base 
         console.log("Bytes: " + nums);
+        var to_return = [];
         for (num in nums) {
-            num = parseInt(num, 2).toString(new_base);
+            to_return.push(parseInt(num, 2).toString(new_base));
         }
-        console.log("Bytes as hex: " + nums);
-        return nums.join('');
+        console.log("Bytes as hex: " + to_return);
+        return to_return.join('');
     }
     var to_return = parseInt(number, original_base).toString(new_base);
     console.log("becomes " + to_return);
