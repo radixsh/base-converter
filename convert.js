@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var input = document.getElementById("input").value;
     document.getElementById("base").onchange = function () {
         var base = document.getElementById("base").value;
+        var input = document.getElementById("input").value;
         if (base == "ascii") {
             var ascii_output_element = document.getElementById("ascii");
             ascii_output_element.innerHTML = "[Irrelevant]" 
