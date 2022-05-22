@@ -40,7 +40,7 @@ function asciiToHex(ascii) {
 function pad(binary_string) {
     console.log("pad(): " + binary_string);
     // https://stackoverflow.com/questions/27641812/way-to-add-leading-zeroes-to-binary-string-in-javascript
-    while (binary_string.length < 8) {
+    while (binary_string.length % 8) {
         binary_string = "0" + binary_string;
     }
     console.log("eventually pad becomes " + binary_string);
@@ -59,7 +59,7 @@ function update() {
         var bin_output_element = document.getElementById("bin");
         bin_output_element.innerHTML = pad(convert(asciiToHex(text), 16, 2));
     } else if (encoding == "hex") {
-        if (String(text).matches("-?[0-9a-fA-F]+")) {
+        if (String(text).match("-?[0-9a-fA-F]+")) {
             var ascii_output_element = document.getElementById("ascii");
             ascii_output_element.innerHTML = codesToChars(text);
             var hex_output_element = document.getElementById("hex");
@@ -70,7 +70,7 @@ function update() {
             alert("Invalid hex string");
         }
     } else if (encoding == "bin") {
-        if (String(text).matches("-?[01]+")) {
+        if (String(text).match("-?[01]+")) {
             var ascii_output_element = document.getElementById("ascii");
             ascii_output_element.innerHTML = codesToChars(parseInt(text, 2));
             var hex_output_element = document.getElementById("hex");
