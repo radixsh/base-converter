@@ -16,6 +16,7 @@ function convert(number, original_base, new_base) {
     console.log("convert(): " + number + " from " + original_base + " to " + new_base);
     var to_return = parseInt(number, original_base).toString(new_base);
     console.log("becomes " + to_return);
+    return to_return;
 }
 
 function codesToChars(hex_string) {
@@ -58,7 +59,7 @@ function update() {
         var bin_output_element = document.getElementById("bin");
         bin_output_element.innerHTML = pad(convert(asciiToHex(text), 16, 2));
     } else if (encoding == "hex") {
-        if (text.matches("-?[0-9a-fA-F]+")) {
+        if (String(text).matches("-?[0-9a-fA-F]+")) {
             var ascii_output_element = document.getElementById("ascii");
             ascii_output_element.innerHTML = codesToChars(text);
             var hex_output_element = document.getElementById("hex");
@@ -69,7 +70,7 @@ function update() {
             alert("Invalid hex string");
         }
     } else if (encoding == "bin") {
-        if (text.matches("-?[01]+")) {
+        if (String(text).matches("-?[01]+")) {
             var ascii_output_element = document.getElementById("ascii");
             ascii_output_element.innerHTML = codesToChars(parseInt(text, 2));
             var hex_output_element = document.getElementById("hex");
