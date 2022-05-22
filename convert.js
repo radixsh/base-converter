@@ -78,5 +78,6 @@ function update() {
             bin_output_element.innerHTML = "[Irrelevant]"
         } else {
             alert("Invalid binary string");
+        }
     }
 }
