@@ -43,7 +43,7 @@ function convert(number_array, original_base, new_base) {
         // iterate through arr and translate each one into the new base 
         // console.log("Bytes: " + pairs);
         var to_return = [];
-        for (num in number) {
+        for (num in number_array) {
             to_return.push(parseInt(num, 16).toString(new_base));
         }
         console.log("Bytes as hex: " + to_return);
@@ -76,7 +76,7 @@ function asciiToHex(ascii) {
         hex_values.push(hex);
     }
     console.log("eventually asciiToHex returns" + hex_values.join(''));
-    return hex_values.join('');
+    return hex_values;
 }
 
 function isValidHex(text) {
@@ -94,9 +94,20 @@ function toBytes(binary_string) {
         binary_string = "0" + binary_string;
     var bytes = [];
     for (var i = 0; i < binary_string.length - 1; i += 8)
-        bytes.push(binary_string.substring(i, i+8));
-    console.log("resulting pairs: " + bytes);
+        bytes.push(binary_string.substring(i, i + 8));
+    console.log("resulting bytes: " + bytes);
     return bytes;
+}
+
+function toPairs(hex_string) {
+    hex_string = hex_string.toString();
+    while (hex_string.length % 2)
+        hex_string = "0" + hex_string;
+    var pairs = [];
+    for (var i = 0; i < hex_string.length - 1; i += 2)
+        pairs.push(hex_string.substring(i, i + 2));
+    console.log("resulting pairs: " + pairs);
+    return pairs;
 }
 
 function update() {
@@ -118,6 +129,7 @@ function update() {
         bin_output_element.innerHTML = toBytes(convert(asciiToHex(text), 16, 2));
     } else if (encoding == "hex") {
         if (isValidHex(text)) { //String(text).match("?[0-9a-fA-F]+")) {
+            text = toPairs(text); // also pads it with zeroes at start if necessary
             var ascii_output_element = document.getElementById("ascii");
             ascii_output_element.innerHTML = codesToChars(text);
             var hex_output_element = document.getElementById("hex");
@@ -129,11 +141,9 @@ function update() {
         }
     } else if (encoding == "bin") {
         if (String(text).match("-?[01]+")) {
-            text = pad(text.toString());
-            text = toBytes(text);
+            // text = pad(text.toString());
+            text = toBytes(text);  // already pads it
             var ascii_output_element = document.getElementById("ascii");
-            // parseInt("0110101010orwhatever", 2) --> a base-10 number
-            // ascii_output_element.innerHTML = codesToChars(parseInt(text, 2).toString(16));
             ascii_output_element.innerHTML = codesToChars(convert(text, 2, 16));
             var hex_output_element = document.getElementById("hex");
             hex_output_element.innerHTML = convert(text, 2, 16);
