@@ -24,13 +24,16 @@ function codesToChars(hex_string) {
     // https://stackoverflow.com/questions/55549405/split-string-every-2-character-into-array#55549473
     console.log("hex string passed to codesToChars(): " + hex_string);
     hex_string = hex_string.toString();
-    var pairs = [];
-    for (var i = 0; i < hex_string.length - 1; i += 2)
-        pairs.push(hex_string.substring(i, i + 2));
-    console.log("resulting pairs: " + pairs);
-    var tmp = String.fromCharCode(pairs);
-    console.log("then: " + tmp);
-    return tmp;
+    var str = '';
+    for (var i = 0; i < hex_string.length; i += 2)
+        str += String.fromCharCode(parseInt(hex_string.substr(i, 2), 16));
+    return str;
+    // var pairs = [];
+    // for (var i = 0; i < hex_string.length - 1; i += 2)
+    //     pairs.push(hex_string.substring(i, i + 2));
+    // console.log("resulting pairs: " + pairs);
+    // var tmp = String.fromCharCode(pairs);
+    // console.log("then: " + tmp);
 }
 
 function asciiToHex(ascii) {
