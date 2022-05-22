@@ -48,6 +48,7 @@ function pad(binary_string) {
 }
 
 function isValidHex(text) {
+    // https://www.tutorialspoint.com/finding-the-validity-of-a-hex-code-in-javascript
     const legend = '0123456789abcdef';
     for (let i = 0; i < text.length; i++)
         if (!legend.includes(text[i]))
@@ -59,6 +60,8 @@ function update() {
     // https://stackoverflow.com/questions/24644345/how-to-detect-focus-changed-event-in-js
     var input = document.getElementById("input");
     text = input.value;
+    if (!text)
+        return;
     if (encoding == "ascii") {
         var ascii_output_element = document.getElementById("ascii");
         ascii_output_element.innerHTML = "[Irrelevant]"
