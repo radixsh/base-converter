@@ -25,7 +25,7 @@ function codesToChars(hex_string) {
     console.log("hex string passed to codesToChars(): " + hex_string);
     hex_string = hex_string.toString();
     var pairs = [];
-    for (var i = 0; i < hex_string.length - 1; i++)
+    for (var i = 0; i < hex_string.length - 1; i += 2)
         pairs.push(Number(hex_string[i] + '' + hex_string[i + 1]));
     console.log("resulting pairs: " + pairs);
     var tmp = String.fromCharCode(pairs);
