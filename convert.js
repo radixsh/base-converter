@@ -27,6 +27,7 @@ function codesToChars(hex_string) {
     var pairs = [];
     for (var i = 0; i < hex_string.length - 1; i++)
         pairs.push(Number(hex_string[i] + '' + hex_string[i + 1]));
+    console.log("resulting pairs: " + pairs);
     return String.fromCharCode(pairs);
 }
 
@@ -103,3 +104,11 @@ function update() {
         }
     }
 }
+
+function copy() {
+  var copyText = document.getElementById(encoding);
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+  navigator.clipboard.writeText(copyText.value);
+  alert("Copied the text: " + copyText.value);
+} 
