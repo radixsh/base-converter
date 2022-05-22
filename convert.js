@@ -108,16 +108,6 @@ function update() {
 }
 
 function copy() {
-    // https://stackoverflow.com/questions/56258236/how-to-copy-a-button-text#56258404
-    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/select
-    var copyText = document.getElementById(encoding);
-    copyText.focus();
-    copyText.select();
-    // var tmp = document.createElement("tmp");
-    // tmp.value = copyText;
-    // document.body.appendChild(tmp);
-    // tmp.select();
-    // document.execCommand("copy");
-    // document.body.removeChild(tmp); 
-    alert("Copied the text: " + copyText);
+    var text = document.getElementById(encoding).innerHTML;
+    window.prompt("Copy to clipboard: Ctrl+C", text);
 } 
