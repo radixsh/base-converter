@@ -22,9 +22,10 @@ function convert(number, original_base, new_base) {
 function codesToChars(hex_string) {
     // split hex string into pairs: https://stackoverflow.com/questions/55549405/split-string-every-2-character-into-array
     console.log("hex string passed to codesToChars(): " + hex_string);
-    var pairs = hex_string.toString().match(/.{1,2}/g);
-    if (!pairs)
-        return "[nothing :(]";
+    hex_string = hex_string.toString();
+    var pairs = [];
+    for (var i = 0; i < a.length - 1; i++)
+        pairs.push(Number(a[i] + '' + a[i+1]));
     return String.fromCharCode(pairs);
 }
 
@@ -87,7 +88,7 @@ function update() {
             var ascii_output_element = document.getElementById("ascii");
             // parseInt("0110101010orwhatever", 2) --> a base-10 number
             // ascii_output_element.innerHTML = codesToChars(parseInt(text, 2).toString(16));
-            ascii_output_element.innerHTML = codesToChars(convert(text, 2, 16)); 
+            ascii_output_element.innerHTML = codesToChars(convert(text, 2, 16));
             var hex_output_element = document.getElementById("hex");
             hex_output_element.innerHTML = convert(text, 2, 16);
             var bin_output_element = document.getElementById("bin");
