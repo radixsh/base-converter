@@ -44,16 +44,6 @@ function asciiToHex(ascii) {
     return hex_values.join('');
 }
 
-function pad(binary_string) {
-    console.log("pad(): " + binary_string);
-    // https://stackoverflow.com/questions/27641812/way-to-add-leading-zeroes-to-binary-string-in-javascript
-    while (binary_string.length % 8) {
-        binary_string = "0" + binary_string;
-    }
-    console.log("eventually pad becomes " + binary_string);
-    return binary_string;
-}
-
 function isValidHex(text) {
     // https://www.tutorialspoint.com/finding-the-validity-of-a-hex-code-in-javascript
     const legend = '0123456789abcdef';
@@ -61,6 +51,17 @@ function isValidHex(text) {
         if (!legend.includes(text[i]))
             return false;
     return true;
+}
+
+function toBytes(binary_string) {
+    binary_string = binary_string.toString();
+    while (binary_string.length % 8)
+        binary_string = "0" + binary_string;
+    var bytes = [];
+    for (var i = 0; i < binary_string.length - 1; i += 8)
+        bytes.push(Number(binary_string[i] + '' + binary_string[i + 1]));
+    // console.log("resulting pairs: " + pairs);
+    return bytes.join(' ');
 }
 
 function update() {
@@ -79,7 +80,7 @@ function update() {
         var hex_output_element = document.getElementById("hex");
         hex_output_element.innerHTML = asciiToHex(text);
         var bin_output_element = document.getElementById("bin");
-        bin_output_element.innerHTML = pad(convert(asciiToHex(text), 16, 2));
+        bin_output_element.innerHTML = toBytes(convert(asciiToHex(text), 16, 2));
     } else if (encoding == "hex") {
         if (isValidHex(text)) { //String(text).match("?[0-9a-fA-F]+")) {
             var ascii_output_element = document.getElementById("ascii");
@@ -87,7 +88,7 @@ function update() {
             var hex_output_element = document.getElementById("hex");
             hex_output_element.innerHTML = "[Irrelevant]"
             var bin_output_element = document.getElementById("bin");
-            bin_output_element.innerHTML = convert(text, 16, 2);
+            bin_output_element.innerHTML = toBytes(convert(text, 16, 2));
         } else {
             alert("Invalid hex string");
         }
