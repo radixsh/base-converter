@@ -12,42 +12,60 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-function convert(number, original_base, new_base) {
+function convert(number_array, original_base, new_base) {
     if (original_base == new_base)
-        return number;
-    console.log("convert(): " + number + " from " + original_base + " to " + new_base);
+        return number_array;
+    console.log("convert(): " + number_array + " from " + original_base + " to " + new_base);
     // if converting from binary, then ensure we're converting each byte and not
     // just the last one
     if (original_base == 2) {
         console.log("Converting from binary...");
-        // split binary up into bytes
-        var nums = [];
-        for (var i = 0; i < number.length - 1; i += 9)
-            nums.push(number.substring(i, i + 8));
+        // split binary up into bytes, delimiting by spaces
+        // var nums = number.split(' '); // [];
+        // for (var i = 0; i < number.length - 1; i += 9)
+        //     nums.push(number.substring(i, i + 8));
         // populate arr with bytes
         // iterate through arr and translate each one into the new base 
-        console.log("Bytes: " + nums);
+        // console.log("Bytes: " + nums);
         var to_return = [];
-        for (num in nums) {
+        for (num in number_array) {
             to_return.push(parseInt(num, 2).toString(new_base));
         }
         console.log("Bytes as hex: " + to_return);
-        return to_return.join('');
+        return to_return; //.join('');
+    } else if (original_base == 16) {
+        console.log("Converting from hex...");
+        // split hex into pairs 
+        // var pairs = [];
+        // for (var i = 0; i < number.length - 1; i += 3)
+        //     pairs.push(number.substring(i, i + 2));
+        // populate arr with bytes
+        // iterate through arr and translate each one into the new base 
+        // console.log("Bytes: " + pairs);
+        var to_return = [];
+        for (num in number) {
+            to_return.push(parseInt(num, 16).toString(new_base));
+        }
+        console.log("Bytes as hex: " + to_return);
+        return to_return; //.join('');
+
     }
     var to_return = parseInt(number, original_base).toString(new_base);
     console.log("becomes " + to_return);
     return to_return;
 }
 
-function codesToChars(hex_string) {
+function codesToChars(hex_array) {
     // https://stackoverflow.com/questions/55549405/split-string-every-2-character-into-array#55549473
     // https://stackoverflow.com/questions/3745666/how-to-convert-from-hex-to-ascii-in-javascript
-    console.log("hex string passed to codesToChars(): " + hex_string);
-    hex_string = hex_string.toString();
-    var str = '';
-    for (var i = 0; i < hex_string.length; i += 2)
-        str += String.fromCharCode(parseInt(hex_string.substr(i, 2), 16));
-    return str;
+    console.log("hex string passed to codesToChars(): " + hex_array);
+    // hex_string = hex_string.toString();
+    var arr = []; // str = '';
+    for (let i = 0; i < hex_array.length; i++) {
+        var current = hex_array[i].substr(i, i + 2);
+        arr.push(String.fromCharCode(parseInt(current, 16)));
+    }
+    return arr;
 }
 
 function asciiToHex(ascii) {
@@ -78,7 +96,7 @@ function toBytes(binary_string) {
     for (var i = 0; i < binary_string.length - 1; i += 8)
         bytes.push(binary_string.substring(i, i+8));
     console.log("resulting pairs: " + bytes);
-    return bytes.join(' ');
+    return bytes;
 }
 
 function update() {
@@ -111,6 +129,8 @@ function update() {
         }
     } else if (encoding == "bin") {
         if (String(text).match("-?[01]+")) {
+            text = pad(text.toString());
+            text = toBytes(text);
             var ascii_output_element = document.getElementById("ascii");
             // parseInt("0110101010orwhatever", 2) --> a base-10 number
             // ascii_output_element.innerHTML = codesToChars(parseInt(text, 2).toString(16));
@@ -123,6 +143,17 @@ function update() {
             alert("Invalid binary string");
         }
     }
+}
+
+function pad(binary_string) {
+    while (binary_string.length % 8)
+        binary_string = "0" + binary_string;
+    var bytes = [];
+    for (var i = 0; i < binary_string.length - 1; i += 8)
+        bytes.push(binary_string.substring(i, i + 8));
+    // console.log("resulting pairs: " + bytes);
+    return bytes.join(' ');
+
 }
 
 function copy(thing) {
