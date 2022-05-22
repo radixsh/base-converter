@@ -6,4 +6,4 @@ I want to make this happen because I am tired of rapidtables.
 ## To do
 * bin to hex
 * bin to ascii
-* hex to ascii
+* input validation for binary strings 
