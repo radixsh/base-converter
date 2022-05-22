@@ -28,7 +28,9 @@ function codesToChars(hex_string) {
     for (var i = 0; i < hex_string.length - 1; i++)
         pairs.push(Number(hex_string[i] + '' + hex_string[i + 1]));
     console.log("resulting pairs: " + pairs);
-    return String.fromCharCode(pairs);
+    var tmp = String.fromCharCode(pairs);
+    console.log("then: " + tmp);
+    return tmp;
 }
 
 function asciiToHex(ascii) {
@@ -106,9 +108,13 @@ function update() {
 }
 
 function copy() {
-  var copyText = document.getElementById(encoding);
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); /* For mobile devices */
-  navigator.clipboard.writeText(copyText.value);
-  alert("Copied the text: " + copyText.value);
+  var copyText = document.getElementById(encoding).innerHTML;
+  // copyText.select();
+  var tmp = document.createElement("tmp");
+  tmp.value = copyText;
+  document.body.appendChild(tmp);
+  tmp.select();
+  document.execCommand("copy");
+  document.body.removeChild(tmp); 
+  alert("Copied the text: " + copyText);
 } 
