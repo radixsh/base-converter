@@ -63,10 +63,12 @@ function codesToChars(hex_array) {
     console.log("hex string passed to codesToChars(): " + hex_array);
     // hex_string = hex_string.toString();
     var arr = []; // str = '';
-    for (let i = 0; i < hex_array.length; i++) {
+    for (let i = 0; i < hex_array.length; i += 2) {
         var current = hex_array[i].substr(i, i + 2);
+        console.log(current);
         arr.push(String.fromCharCode(parseInt(current, 16)));
     }
+    console.log("hex-->ascii array: " + arr);
     return arr;
 }
 
