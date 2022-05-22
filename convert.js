@@ -19,15 +19,18 @@ function convert(number, original_base, new_base) {
     // if converting from binary, then ensure we're converting each byte and not
     // just the last one
     if (original_base == 2) {
+        console.log("Converting from binary...");
         // split binary up into bytes
         var nums = [];
         for (var i = 0; i < number.length - 1; i += 9)
             nums.push(number.substring(i, i + 8));
         // populate arr with bytes
         // iterate through arr and translate each one into the new base 
+        console.log("Bytes: " + nums);
         for (num in nums) {
             num = parseInt(num, 2).toString(new_base);
         }
+        console.log("Bytes as hex: " + nums);
         return nums.join('');
     }
     var to_return = parseInt(number, original_base).toString(new_base);
