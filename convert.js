@@ -20,12 +20,13 @@ function convert(number, original_base, new_base) {
 }
 
 function codesToChars(hex_string) {
-    // split hex string into pairs: https://stackoverflow.com/questions/55549405/split-string-every-2-character-into-array
+    // split hex string into pairs:
+    // https://stackoverflow.com/questions/55549405/split-string-every-2-character-into-array#55549473
     console.log("hex string passed to codesToChars(): " + hex_string);
     hex_string = hex_string.toString();
     var pairs = [];
-    for (var i = 0; i < a.length - 1; i++)
-        pairs.push(Number(a[i] + '' + a[i+1]));
+    for (var i = 0; i < hex_string.length - 1; i++)
+        pairs.push(Number(hex_string[i] + '' + hex_string[i + 1]));
     return String.fromCharCode(pairs);
 }
 
@@ -63,8 +64,12 @@ function update() {
     // https://stackoverflow.com/questions/24644345/how-to-detect-focus-changed-event-in-js
     var input = document.getElementById("input");
     text = input.value;
-    if (!text)
+    if (!text) {
+        document.getElementById("ascii").innerHTML = "";
+        document.getElementById("hex").innerHTML = "";
+        document.getElementById("bin").innerHTML = "";
         return;
+    }
     if (encoding == "ascii") {
         var ascii_output_element = document.getElementById("ascii");
         ascii_output_element.innerHTML = "[Irrelevant]"
