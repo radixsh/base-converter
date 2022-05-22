@@ -107,7 +107,8 @@ function update() {
     }
 }
 
-function copy() {
-    var text = document.getElementById(encoding).innerHTML;
+function copy(thing) {
+    // https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
+    var text = document.getElementById(thing).innerHTML;
     window.prompt("Copy to clipboard: Ctrl+C", text);
 } 
