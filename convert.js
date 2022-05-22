@@ -28,8 +28,9 @@ function convert(number_array, original_base, new_base) {
         // iterate through arr and translate each one into the new base 
         // console.log("Bytes: " + nums);
         var to_return = [];
-        for (num in number_array) {
-            to_return.push(parseInt(num, 2).toString(new_base));
+        for (let i = 0; i < number_array.length; i++) {
+            var tmp = number_array[i];
+            to_return.push(parseInt(tmp, 2).toString(new_base));
         }
         console.log("Bytes as hex: " + to_return);
         return to_return; //.join('');
@@ -43,7 +44,8 @@ function convert(number_array, original_base, new_base) {
         // iterate through arr and translate each one into the new base 
         // console.log("Bytes: " + pairs);
         var to_return = [];
-        for (num in number_array) {
+        for (let i = 0; i < number_array.length; i++) {
+            var tmp = number_array[i];
             to_return.push(parseInt(num, 16).toString(new_base));
         }
         console.log("Bytes as hex: " + to_return);
@@ -68,14 +70,15 @@ function codesToChars(hex_array) {
     return arr;
 }
 
-function asciiToHex(ascii) {
+function asciiToHex(ascii) {  // one of the few functions that takes in a string
+    // it still returns an array tghough
     console.log("asciiToHex(): " + ascii);
     var hex_values = [];
     for (var n = 0, l = ascii.length; n < l; n++) {
         var hex = Number(ascii.charCodeAt(n)).toString(16);
         hex_values.push(hex);
     }
-    console.log("eventually asciiToHex returns" + hex_values.join(''));
+    console.log("eventually asciiToHex returns " + hex_values);
     return hex_values;
 }
 
