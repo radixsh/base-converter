@@ -59,7 +59,7 @@ function toBytes(binary_string) {
         binary_string = "0" + binary_string;
     var bytes = [];
     for (var i = 0; i < binary_string.length - 1; i += 8)
-        bytes.push(Number(binary_string[i] + '' + binary_string[i + 1]));
+        bytes.push(Number(binary_string[i] + '' + binary_string[i + 8]));
     // console.log("resulting pairs: " + pairs);
     return bytes.join(' ');
 }
