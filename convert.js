@@ -47,6 +47,14 @@ function pad(binary_string) {
     return binary_string;
 }
 
+function isValidHex(text) {
+    const legend = '0123456789abcdef';
+    for (let i = 0; i < text.length; i++)
+        if (!legend.includes(text[i]))
+            return false;
+    return true;
+}
+
 function update() {
     // https://stackoverflow.com/questions/24644345/how-to-detect-focus-changed-event-in-js
     var input = document.getElementById("input");
@@ -59,7 +67,7 @@ function update() {
         var bin_output_element = document.getElementById("bin");
         bin_output_element.innerHTML = pad(convert(asciiToHex(text), 16, 2));
     } else if (encoding == "hex") {
-        if (String(text).match("-?[0-9a-fA-F]+")) {
+        if (isValidHex(text)) { //String(text).match("?[0-9a-fA-F]+")) {
             var ascii_output_element = document.getElementById("ascii");
             ascii_output_element.innerHTML = codesToChars(text);
             var hex_output_element = document.getElementById("hex");
