@@ -7,3 +7,4 @@ I want to make this happen because I am tired of rapidtables.
 * bin to hex
 * bin to ascii
 * input validation for binary strings 
+* make better print debugging statements
