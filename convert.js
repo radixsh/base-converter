@@ -46,7 +46,7 @@ function convert(number_array, original_base, new_base) {
         var to_return = [];
         for (let i = 0; i < number_array.length; i++) {
             var tmp = number_array[i];
-            to_return.push(parseInt(num, 16).toString(new_base));
+            to_return.push(parseInt(tmp, 16).toString(new_base));
         }
         console.log("Bytes as hex: " + to_return);
         return to_return; //.join('');
