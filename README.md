@@ -4,7 +4,7 @@ number bases without having to reload the page or select a specific destination.
 I want to make this happen because I am tired of rapidtables.
 
 ## To do
-* bin to hex
-* bin to ascii
-* input validation for binary strings 
-* make better print debugging statements
+* bin to hex still has a 0 at the beginning of the hex
+* bin to ascii still isn't splitting the string correctly
+* `ascii.charCodeAt()` is not a function (in asciiToHex() in update() in
+                                          onblur())

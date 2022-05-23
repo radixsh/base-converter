@@ -40,7 +40,8 @@ function codesToChars(hex_array) {  // array-->array
     return arr;
 }
 
-function asciiToHex(ascii_string) {  // array-->array
+function asciiToHex(ascii_array) {  // array-->array
+    var ascii_string = ascii_array.toString().replace(/,/g, '');
     console.log("asciiToHex(): " + ascii);
     var hex_values = [];
     for (var n = 0, l = ascii_string.length; n < l; n++) {
