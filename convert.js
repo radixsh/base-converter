@@ -16,30 +16,11 @@ function convert(number_array, original_base, new_base) { // array-->array?
     if (original_base == new_base)
         return number_array;
     console.log("convert(): " + number_array + " from " + original_base + " to " + new_base);
-    // if converting from binary, then ensure we're converting each byte and not
-    // just the last one
-    if (original_base == 2) {
-        console.log("Converting from binary...");
-        var to_return = [];
-        for (let i = 0; i < number_array.length; i++) 
-            var tmp = number_array[i];
-        to_return.push(parseInt(tmp, 2).toString(new_base));
-        console.log("Bytes as hex: " + to_return);
-        return to_return; //.join('');
-    } else if (original_base == 16) {
-        console.log("Converting from hex...");
-        // populate arr with bytes
-        // iterate through arr and translate each one in-place into binary 
-        var to_return = [];
-        for (let i = 0; i < number_array.length; i++) {
-            var tmp = number_array[i];
-            to_return.push(parseInt(tmp, 16).toString(new_base));
-        }
-        console.log("Hex as bytes: " + to_return);
-        return to_return; //.join('');
-
+    var to_return = [];
+    for (let i = 0; i < number_array.length; i++) {
+        var tmp = number_array[i];
+        to_return.push(parseInt(tmp, original_base).toString(new_base));
     }
-    var to_return = parseInt(number, original_base).toString(new_base);
     console.log("becomes " + to_return);
     return to_return;
 }
@@ -63,17 +44,11 @@ function asciiToHex(ascii_string) {  // array-->array
     console.log("asciiToHex(): " + ascii);
     var hex_values = [];
     for (var n = 0, l = ascii_string.length; n < l; n++) {
-        var hex = Number(ascii.charCodeAt(n)).toString(16);
+        var hex = Number(ascii_string.charCodeAt(n)).toString(16);
         hex_values.push(hex);
     }
     console.log("eventually asciiToHex returns " + hex_values);
     return hex_values;
-    // for (var n = 0, l = ascii_array.length; n < l; n++) {
-    //     var hex = Number(ascii.charCodeAt(n)).toString(16);
-    //     hex_values.push(hex);
-    // }
-    // console.log("eventually asciiToHex returns " + hex_values);
-    // return hex_values;
 }
 
 function isValidHex(text) {
