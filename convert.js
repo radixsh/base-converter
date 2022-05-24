@@ -5,14 +5,14 @@ document.addEventListener("DOMContentLoaded", function() {
     // listener that calls updateEncoding() when base changes
     document.getElementById("base").onchange = function () {
         // change the encoding global var
-        var tmp_encoding = encoding;
+        // var tmp_encoding = encoding;
         encoding = base.value;
         // then ensure that the output in the bottom half of the page is right
         update();
     }
 });
 
-function convert(number_array, original_base, new_base) { // array-->array?
+function convert(number_array, original_base, new_base) { // array-->array
     if (original_base == new_base)
         return number_array;
     console.log("convert(): " + number_array + " from " + original_base + " to " + new_base);
@@ -75,15 +75,20 @@ function toBytes(binary) { // (string or array) to array, like when starting fro
     if (Array.isArray(binary)) {
         // make sure each individual byte is padded correctly
         for (var i = 0; i < binary.length; i++) {
-            while (binary[i].length % 8)
+            while (binary[i].length % 8) {
+                console.log("Need to pad this: " + binary[i]);
                 binary[i] = "0" + binary[i];
+            }
         }
         return binary;
     } else {  // if given a single long binary string, like in case 3
-        if (binary.indexOf(/\s/) < 0) {  // if no spaces in it
+        if (binary.indexOf(/\s/) == -1) {  // if no spaces in it
+            console.log("No spaces in the given binary string");
             var bytes = [];
             for (var i = 0; i < binary.length; i += 9) {
-                bytes.push(binary.substring(i, i + 8));
+                var tmp = binary.substring(i, i + 8);
+                console.log("tmp: " + tmp);
+                bytes.push(tmp);
             }
             return bytes;
         } else {  // else, if it is a single long binary string with space-delimiters
@@ -126,7 +131,7 @@ function update() {
         text = text.split(''); // string-->array just to make it consistent
         console.log("given: " + text);
         var ascii_output_element = document.getElementById("ascii");
-        ascii_output_element = "[Irrelevant]";
+        ascii_output_element.innerHTML = "[Irrelevant]";
 
         var hex_output_element = document.getElementById("hex");
         // asciiToHex(): array to array
@@ -162,10 +167,6 @@ function update() {
             clear(document);
         }
     } else if (encoding == "bin") {
-        var tmp = text.toString();
-        console.log(tmp);
-        var tmp2 = text.toString(2);
-        console.log(tmp2);
         if (isValidBin(text)) { // text.match("[01 +]")) {
             alert_element.innerHTML = "";
             // 00110011 01010101 --> 0011001101010101
@@ -173,8 +174,6 @@ function update() {
             // out the commas and spaces because there's no guarantee each
             // provided byte is properly zero-padded. Therefore, pass to
             // toBytes()
-            // text = text.replace(/(,|\s)/g, '');
-            // toBytes(): (array or string) to array
             text = toBytes(text);
 
             var ascii_output_element = document.getElementById("ascii");
