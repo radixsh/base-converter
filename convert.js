@@ -18,8 +18,8 @@ function convert(number_array, original_base, new_base) { // array-->array?
     console.log("convert(): " + number_array + " from " + original_base + " to " + new_base);
     var to_return = [];
     for (let i = 0; i < number_array.length; i++) {
-        var tmp = number_array[i];
-        to_return.push(parseInt(tmp, original_base).toString(new_base));
+        var hex = number_array[i];
+        to_return.push(parseInt(hex, original_base).toString(new_base));
     }
     console.log("becomes " + to_return);
     return to_return;
@@ -41,8 +41,10 @@ function codesToChars(hex_array) {  // array-->array
 }
 
 function asciiToHex(ascii_array) {  // array-->array
-    var ascii_string = ascii_array.toString().replace(/,/g, '');
-    console.log("asciiToHex(): " + ascii);
+    // console.log("asciiToHex() was given: " + ascii_array);
+    var ascii_string = ascii_array.join(''); // array to string, with no delimiters
+    var ascii_string = ascii_string.replace(/(,|\s)/g, '');
+    // console.log("then asciiToHex() makes it into: " + ascii_string);
     var hex_values = [];
     for (var n = 0, l = ascii_string.length; n < l; n++) {
         var hex = Number(ascii_string.charCodeAt(n)).toString(16);
@@ -65,13 +67,13 @@ function toBytes(binary_string) { // (string or array) to array, like when start
     binary_string = binary_string.toString();
     // remove all commas if necessary (i.e., if we got passed an array and then
     // we had to change it to a set of comma-separated values
-    binary_string = binary_string.replace(/,/g, '');
+    binary_string = binary_string.replace(/(,|\s)/g, '');
     while (binary_string.length % 8)
         binary_string = "0" + binary_string;
     var bytes = [];
     for (var i = 0; i < binary_string.length - 1; i += 8)
         bytes.push(binary_string.substring(i, i + 8));
-    console.log("resulting bytes: " + bytes);
+    console.log("toBytes() returns: " + bytes);
     return bytes;
 }
 
@@ -97,6 +99,7 @@ function update() {
         document.getElementById("bin").innerHTML = "";
         return;
     }
+    var alert_element = document.getElementById("alert_element");
     if (encoding == "ascii") {
         // split(): string to array
         text = text.split(''); // string-->array just to make it consistent
@@ -106,13 +109,15 @@ function update() {
 
         var hex_output_element = document.getElementById("hex");
         // asciiToHex(): array to array
-        hex_output_element.innerHTML = asciiToHex(text);
+        var hex_output = asciiToHex(text);
+        hex_output_element.innerHTML = hex_output.join(" ");
 
         var bin_output_element = document.getElementById("bin");
         // asciiToHex(): array to array
         // convert(): array to array
         // toBytes(): (array or string) to array
-        bin_output_element.innerHTML = toBytes(convert(asciiToHex(text), 16, 2));
+        var bin_output = convert(hex_output, 16, 2);
+        bin_output_element.innerHTML = toBytes(bin_output).join(" ");
     } else if (encoding == "hex") {
         if (isValidHex(text)) {
             // toPairs(): string to array
@@ -120,7 +125,7 @@ function update() {
 
             var ascii_output_element = document.getElementById("ascii");
             // codesToChars(): array to array
-            ascii_output_element.innerHTML = codesToChars(text);
+            ascii_output_element.innerHTML = codesToChars(text).join(" ");
 
             var hex_output_element = document.getElementById("hex");
             hex_output_element.innerHTML = "[Irrelevant]"
@@ -128,9 +133,9 @@ function update() {
             var bin_output_element = document.getElementById("bin");
             // convert(): array to array
             // toBytes(): (array or string) to array
-            bin_output_element.innerHTML = toBytes(convert(text, 16, 2));
+            bin_output_element.innerHTML = toBytes(convert(text, 16, 2)).join(" ");
         } else {
-            alert("Invalid hex string");
+            alert_element.innerHTML = "Invalid hex string";
         }
     } else if (encoding == "bin") {
         if (String(text).match("-?[01]+")) {
@@ -139,16 +144,16 @@ function update() {
 
             var ascii_output_element = document.getElementById("ascii");
             // convert(): array to array
-            ascii_output_element.innerHTML = codesToChars(convert(text, 2, 16));
+            ascii_output_element.innerHTML = codesToChars(convert(text, 2, 16)).join(" ");
 
             var hex_output_element = document.getElementById("hex");
             // convert(): array to array
-            hex_output_element.innerHTML = convert(text, 2, 16);
+            hex_output_element.innerHTML = convert(text, 2, 16).join(" ");
 
             var bin_output_element = document.getElementById("bin");
             bin_output_element.innerHTML = "[Irrelevant]"
         } else {
-            alert("Invalid binary string");
+            alert_element.innerHTML = "Invalid binary string";
         }
     }
 }
