@@ -104,7 +104,7 @@ function toPairs(hex_string) { // (string or array) to array
     return pairs;
 }
 
-function clear() {
+function clear(document) {
     document.getElementById("ascii").innerHTML = "";
     document.getElementById("hex").innerHTML = "";
     document.getElementById("bin").innerHTML = "";
@@ -116,7 +116,7 @@ function update() {
     text = input.value;
 
     if (!text) {
-        clear();
+        clear(document);
         return;
     }
     var alert_element = document.getElementById("alert_element");
@@ -126,25 +126,19 @@ function update() {
         text = text.split(''); // string-->array just to make it consistent
         console.log("given: " + text);
         var ascii_output_element = document.getElementById("ascii");
-        ascii_output_element.innerHTML = "<code>";
-        ascii_output_element += "[Irrelevant]";
-        ascii_output_element += "</code>";
+        ascii_output_element = "[Irrelevant]";
 
         var hex_output_element = document.getElementById("hex");
         // asciiToHex(): array to array
         var hex_output = asciiToHex(text);
-        hex_output_element.innerHTML = "<code>";
-        hex_output_element.innerHTML += hex_output.join(" ");
-        hex_output_element.innerHTML += "</code>";
+        hex_output_element.innerHTML = hex_output.join(" ");
 
         var bin_output_element = document.getElementById("bin");
         // asciiToHex(): array to array
         // convert(): array to array
         // toBytes(): (array or string) to array
         var bin_output = convert(hex_output, 16, 2);
-        bin_output_element.innerHTML = "<code>";
-        bin_output_element.innerHTML += toBytes(bin_output).join(" ");
-        bin_output_element.innerHTML += "</code>";
+        bin_output_element.innerHTML = toBytes(bin_output).join(" ");
     } else if (encoding == "hex") {
         if (isValidHex(text)) {
             alert_element.innerHTML = "";
@@ -154,24 +148,18 @@ function update() {
 
             var ascii_output_element = document.getElementById("ascii");
             // codesToChars(): array to array
-            ascii_output_element.innerHTML = "<code>";
-            ascii_output_element.innerHTML += codesToChars(text).join("");
-            ascii_output_element.innerHTML += "</code>";
+            ascii_output_element.innerHTML = codesToChars(text).join("");
 
             var hex_output_element = document.getElementById("hex");
-            hex_output_element.innerHTML = "<code>";
-            hex_output_element.innerHTML += "[Irrelevant]"
-            hex_output_element.innerHTML += "</code>";
+            hex_output_element.innerHTML = "[Irrelevant]"
 
             var bin_output_element = document.getElementById("bin");
             // convert(): array to array
             // toBytes(): (array or string) to array
-            bin_output_element.innerHTML = "<code>";
-            bin_output_element.innerHTML += toBytes(convert(text, 16, 2)).join(" ");
-            bin_output_element.innerHTML += "</code>";
+            bin_output_element.innerHTML = toBytes(convert(text, 16, 2)).join(" ");
         } else {
             alert_element.innerHTML = "Invalid hex string";
-            clear();
+            clear(document);
         }
     } else if (encoding == "bin") {
         var tmp = text.toString();
@@ -191,23 +179,17 @@ function update() {
 
             var ascii_output_element = document.getElementById("ascii");
             // convert(): array to array
-            ascii_output_element.innerHTML = "<code>";
-            ascii_output_element.innerHTML += codesToChars(convert(text, 2, 16)).join("");
-            ascii_output_element.innerHTML += "</code>";
+            ascii_output_element.innerHTML = codesToChars(convert(text, 2, 16)).join("");
 
             var hex_output_element = document.getElementById("hex");
             // convert(): array to array
-            hex_output_element.innerHTML = "<code>";
-            hex_output_element.innerHTML += convert(text, 2, 16).join(" ");
-            hex_output_element.innerHTML += "</code>";
+            hex_output_element.innerHTML = convert(text, 2, 16).join(" ");
 
             var bin_output_element = document.getElementById("bin");
-            bin_output_element.innerHTML = "<code>";
-            bin_output_element.innerHTML += "[Irrelevant]"
-            bin_output_element.innerHTML += "</code>";
+            bin_output_element.innerHTML = "[Irrelevant]"
         } else {
             alert_element.innerHTML = "Invalid binary string";
-            clear();
+            clear(document);
         }
     }
 }
