@@ -63,18 +63,21 @@ function isValidHex(text) {
     return true;
 }
 
-function toBytes(binary_string) { // (string or array) to array, like when starting from bin
-    binary_string = binary_string.toString();
-    // remove all commas if necessary (i.e., if we got passed an array and then
-    // we had to change it to a set of comma-separated values
-    binary_string = binary_string.replace(/(,|\s)/g, '');
-    while (binary_string.length % 8)
-        binary_string = "0" + binary_string;
-    var bytes = [];
-    for (var i = 0; i < binary_string.length - 1; i += 8)
-        bytes.push(binary_string.substring(i, i + 8));
-    console.log("toBytes() returns: " + bytes);
-    return bytes;
+function toBytes(binary) { // (string or array) to array, like when starting from bin
+    if (Array.isArray(binary)) {
+        // make sure each individual byte is padded correctly
+        for (var i = 0; i < binary.length; i++) {
+            while (binary[i].length % 8)
+                binary[i] = "0" + binary[i];
+        }
+    } else { // if given a single long binary string, like in case 3
+        var bytes = [];
+        for (var i = 0; i < binary.length; i++) {
+            bytes.push(binary.substring(i, i + 8));
+        }
+        binary = bytes;
+    }
+    return binary;
 }
 
 function toPairs(hex_string) { // (string or array) to array
@@ -117,7 +120,7 @@ function update() {
         // convert(): array to array
         // toBytes(): (array or string) to array
         var bin_output = convert(hex_output, 16, 2);
-        bin_output_element.innerHTML = toBytes(bin_output).join(" ");
+        bin_output_element.innerHTML = toBytes(bin_output); //.join(" ");
     } else if (encoding == "hex") {
         if (isValidHex(text)) {
             // toPairs(): string to array
