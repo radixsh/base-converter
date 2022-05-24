@@ -120,7 +120,7 @@ function update() {
         // convert(): array to array
         // toBytes(): (array or string) to array
         var bin_output = convert(hex_output, 16, 2);
-        bin_output_element.innerHTML = toBytes(bin_output); //.join(" ");
+        bin_output_element.innerHTML = toBytes(bin_output).join(" ");
     } else if (encoding == "hex") {
         if (isValidHex(text)) {
             // toPairs(): string to array
