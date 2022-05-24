@@ -43,7 +43,7 @@ function codesToChars(hex_array) {  // array-->array
 function asciiToHex(ascii_array) {  // array-->array
     // console.log("asciiToHex() was given: " + ascii_array);
     var ascii_string = ascii_array.join(''); // array to string, with no delimiters
-    var ascii_string = ascii_string.replace(/(,|\s)/g, '');
+    // var ascii_string = ascii_string.replace(/(,|\s)/g, '');
     // console.log("then asciiToHex() makes it into: " + ascii_string);
     var hex_values = [];
     for (var n = 0, l = ascii_string.length; n < l; n++) {
@@ -59,6 +59,14 @@ function isValidHex(text) {
     const legend = '0123456789abcdef ';
     for (let i = 0; i < text.length; i++)
         if (!legend.includes(text[i]))
+            return false;
+    return true;
+}
+
+function isValidBin(text) {
+    // https://stackoverflow.com/questions/49743318/fast-way-to-check-if-a-javascript-array-is-binary-contains-only-0-and-1
+    for (let i = 0; i < text.length; i++)
+        if (text[i] != 0 && text[i] != 1 && text[i] != " ")
             return false;
     return true;
 }
@@ -96,14 +104,19 @@ function toPairs(hex_string) { // (string or array) to array
     return pairs;
 }
 
+function clear() {
+    document.getElementById("ascii").innerHTML = "";
+    document.getElementById("hex").innerHTML = "";
+    document.getElementById("bin").innerHTML = "";
+}
+
 function update() {
     // https://stackoverflow.com/questions/24644345/how-to-detect-focus-changed-event-in-js
     var input = document.getElementById("input");
     text = input.value;
+
     if (!text) {
-        document.getElementById("ascii").innerHTML = "";
-        document.getElementById("hex").innerHTML = "";
-        document.getElementById("bin").innerHTML = "";
+        clear();
         return;
     }
     var alert_element = document.getElementById("alert_element");
@@ -111,21 +124,27 @@ function update() {
         alert_element.innerHTML = "";
         // split(): string to array
         text = text.split(''); // string-->array just to make it consistent
-
+        console.log("given: " + text);
         var ascii_output_element = document.getElementById("ascii");
-        ascii_output_element.innerHTML = "[Irrelevant]"
+        ascii_output_element.innerHTML = "<code>";
+        ascii_output_element += "[Irrelevant]";
+        ascii_output_element += "</code>";
 
         var hex_output_element = document.getElementById("hex");
         // asciiToHex(): array to array
         var hex_output = asciiToHex(text);
-        hex_output_element.innerHTML = hex_output.join(" ");
+        hex_output_element.innerHTML = "<code>";
+        hex_output_element.innerHTML += hex_output.join(" ");
+        hex_output_element.innerHTML += "</code>";
 
         var bin_output_element = document.getElementById("bin");
         // asciiToHex(): array to array
         // convert(): array to array
         // toBytes(): (array or string) to array
         var bin_output = convert(hex_output, 16, 2);
-        bin_output_element.innerHTML = toBytes(bin_output).join(" ");
+        bin_output_element.innerHTML = "<code>";
+        bin_output_element.innerHTML += toBytes(bin_output).join(" ");
+        bin_output_element.innerHTML += "</code>";
     } else if (encoding == "hex") {
         if (isValidHex(text)) {
             alert_element.innerHTML = "";
@@ -135,20 +154,31 @@ function update() {
 
             var ascii_output_element = document.getElementById("ascii");
             // codesToChars(): array to array
-            ascii_output_element.innerHTML = codesToChars(text).join(" ");
+            ascii_output_element.innerHTML = "<code>";
+            ascii_output_element.innerHTML += codesToChars(text).join("");
+            ascii_output_element.innerHTML += "</code>";
 
             var hex_output_element = document.getElementById("hex");
-            hex_output_element.innerHTML = "[Irrelevant]"
+            hex_output_element.innerHTML = "<code>";
+            hex_output_element.innerHTML += "[Irrelevant]"
+            hex_output_element.innerHTML += "</code>";
 
             var bin_output_element = document.getElementById("bin");
             // convert(): array to array
             // toBytes(): (array or string) to array
-            bin_output_element.innerHTML = toBytes(convert(text, 16, 2)).join(" ");
+            bin_output_element.innerHTML = "<code>";
+            bin_output_element.innerHTML += toBytes(convert(text, 16, 2)).join(" ");
+            bin_output_element.innerHTML += "</code>";
         } else {
             alert_element.innerHTML = "Invalid hex string";
+            clear();
         }
     } else if (encoding == "bin") {
-        if (String(text).match("-?[01]+")) {
+        var tmp = text.toString();
+        console.log(tmp);
+        var tmp2 = text.toString(2);
+        console.log(tmp2);
+        if (isValidBin(text)) { // text.match("[01 +]")) {
             alert_element.innerHTML = "";
             // 00110011 01010101 --> 0011001101010101
             // To turn it into a continuous binary string, we cannot just regex
@@ -161,16 +191,23 @@ function update() {
 
             var ascii_output_element = document.getElementById("ascii");
             // convert(): array to array
-            ascii_output_element.innerHTML = codesToChars(convert(text, 2, 16)).join(" ");
+            ascii_output_element.innerHTML = "<code>";
+            ascii_output_element.innerHTML += codesToChars(convert(text, 2, 16)).join("");
+            ascii_output_element.innerHTML += "</code>";
 
             var hex_output_element = document.getElementById("hex");
             // convert(): array to array
-            hex_output_element.innerHTML = convert(text, 2, 16).join(" ");
+            hex_output_element.innerHTML = "<code>";
+            hex_output_element.innerHTML += convert(text, 2, 16).join(" ");
+            hex_output_element.innerHTML += "</code>";
 
             var bin_output_element = document.getElementById("bin");
-            bin_output_element.innerHTML = "[Irrelevant]"
+            bin_output_element.innerHTML = "<code>";
+            bin_output_element.innerHTML += "[Irrelevant]"
+            bin_output_element.innerHTML += "</code>";
         } else {
             alert_element.innerHTML = "Invalid binary string";
+            clear();
         }
     }
 }
