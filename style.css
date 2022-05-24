@@ -1,6 +1,9 @@
 /* https://stackoverflow.com/questions/6464592/how-to-align-entire-html-body-to-the-center */
 html, body {
     height: 100%;
+    font-family: 'Roboto Mono', monospace;
+    background-color: #999999;
+    /* padding: 20px;*/
 }
 
 html {
@@ -11,4 +14,28 @@ html {
 body {
     display: table-cell;
     vertical-align: middle;
+}
+
+textarea {
+    display: inline-block;
+    padding: 15px;
+    background-color: #666666;
+    border: none;
+}
+
+button {
+    display: inline-block;
+    padding: 15px;
+    background-color: #8db255;
+    border: none;
+    font-size: 16px;
+}
+
+select {
+    display: inline-block;
+    padding: 15px;
+    background-color: #8db255;
+    border: none;
+    font-size: 16px;
+    /* position: relative;*/
 }
