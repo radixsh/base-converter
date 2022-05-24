@@ -56,7 +56,7 @@ function asciiToHex(ascii_array) {  // array-->array
 
 function isValidHex(text) {
     // https://www.tutorialspoint.com/finding-the-validity-of-a-hex-code-in-javascript
-    const legend = '0123456789abcdef';
+    const legend = '0123456789abcdef ';
     for (let i = 0; i < text.length; i++)
         if (!legend.includes(text[i]))
             return false;
@@ -71,23 +71,22 @@ function toBytes(binary) { // (string or array) to array, like when starting fro
                 binary[i] = "0" + binary[i];
         }
         return binary;
-    } else { // if given a single long binary string, like in case 3
+    } else {  // if given a single long binary string, like in case 3
         if (binary.indexOf(/\s/) < 0) {  // if no spaces in it
             var bytes = [];
             for (var i = 0; i < binary.length; i += 9) {
                 bytes.push(binary.substring(i, i + 8));
             }
             return bytes;
-        } else {  // space-delimited
+        } else {  // else, if it is a single long binary string with space-delimiters
             return binary.split(' ');
         }
     }
-    return binary;
 }
 
 function toPairs(hex_string) { // (string or array) to array
     hex_string = hex_string.toString();
-    hex_string = hex_string.replace(/,/g, '');
+    hex_string = hex_string.replace(/(,|\s)/g, '');
     while (hex_string.length % 2)
         hex_string = "0" + hex_string;
     var pairs = [];
@@ -109,6 +108,7 @@ function update() {
     }
     var alert_element = document.getElementById("alert_element");
     if (encoding == "ascii") {
+        alert_element.innerHTML = "";
         // split(): string to array
         text = text.split(''); // string-->array just to make it consistent
 
@@ -128,6 +128,8 @@ function update() {
         bin_output_element.innerHTML = toBytes(bin_output).join(" ");
     } else if (encoding == "hex") {
         if (isValidHex(text)) {
+            alert_element.innerHTML = "";
+            text = text.replace(/(,|\s)/g, '');
             // toPairs(): string to array
             text = toPairs(text);
 
@@ -147,6 +149,13 @@ function update() {
         }
     } else if (encoding == "bin") {
         if (String(text).match("-?[01]+")) {
+            alert_element.innerHTML = "";
+            // 00110011 01010101 --> 0011001101010101
+            // To turn it into a continuous binary string, we cannot just regex
+            // out the commas and spaces because there's no guarantee each
+            // provided byte is properly zero-padded. Therefore, pass to
+            // toBytes()
+            // text = text.replace(/(,|\s)/g, '');
             // toBytes(): (array or string) to array
             text = toBytes(text);
 
@@ -169,5 +178,5 @@ function update() {
 function copy(thing) {
     // https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
     var text = document.getElementById(thing).innerHTML;
-    window.prompt("Copy to clipboard: Ctrl+C", text);
+    window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
 }
