@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-function convert(number_array, original_base, new_base) { // array-->array? 
+function convert(number_array, original_base, new_base) { // array-->array?
     if (original_base == new_base)
         return number_array;
     console.log("convert(): " + number_array + " from " + original_base + " to " + new_base);
@@ -31,9 +31,9 @@ function codesToChars(hex_array) {  // array-->array
     console.log("hex string passed to codesToChars(): " + hex_array);
     // hex_string = hex_string.toString();
     var arr = []; // str = '';
-    for (let i = 0; i < hex_array.length; i += 2) {
-        var current = hex_array[i].substr(i, i + 2);
-        console.log(current);
+    for (let i = 0; i < hex_array.length; i++) {
+        var current = hex_array[i];
+        console.log("Current: " + current);
         arr.push(String.fromCharCode(parseInt(current, 16)));
     }
     console.log("hex-->ascii array: " + arr);
@@ -70,12 +70,17 @@ function toBytes(binary) { // (string or array) to array, like when starting fro
             while (binary[i].length % 8)
                 binary[i] = "0" + binary[i];
         }
+        return binary;
     } else { // if given a single long binary string, like in case 3
-        var bytes = [];
-        for (var i = 0; i < binary.length; i++) {
-            bytes.push(binary.substring(i, i + 8));
+        if (binary.indexOf(/\s/) < 0) {  // if no spaces in it
+            var bytes = [];
+            for (var i = 0; i < binary.length; i += 9) {
+                bytes.push(binary.substring(i, i + 8));
+            }
+            return bytes;
+        } else {  // space-delimited
+            return binary.split(' ');
         }
-        binary = bytes;
     }
     return binary;
 }
@@ -165,4 +170,4 @@ function copy(thing) {
     // https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
     var text = document.getElementById(thing).innerHTML;
     window.prompt("Copy to clipboard: Ctrl+C", text);
-} 
+}
