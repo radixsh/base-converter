@@ -76,7 +76,7 @@ function toBytes(binary) { // (string or array) to array, like when starting fro
         // make sure each individual byte is padded correctly
         for (var i = 0; i < binary.length; i++) {
             while (binary[i].length % 8) {
-                console.log("Need to pad this: " + binary[i]);
+                // console.log("Need to pad this: " + binary[i]);
                 binary[i] = "0" + binary[i];
             }
         }

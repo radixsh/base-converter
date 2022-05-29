@@ -3,39 +3,63 @@ html, body {
     height: 100%;
     font-family: 'Roboto Mono', monospace;
     background-color: #999999;
-    /* padding: 20px;*/
+    padding: 20px;
 }
 
-html {
+h1 {
+    text-align: center;
+}
+
+button, select {
+    display: inline-block;
+    padding: 15px;
+    background-color: #8db255;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+}
+
+/* https://stackoverflow.com/questions/1964297/split-div-into-2-columns-using-css
+ */
+#content {
     display: table;
-    margin: auto;
+    width: 100%;
 }
 
-body {
+#right-column {
+    text-align: right;
+    padding: 15px;
+}
+
+.column {
+    display: table-cell;
+    padding: 25px;
+} 
+/* If the browser window is smaller than 600px, make the columns stack on top of each other */
+@media only screen and (max-width: 600px) {
+  .column {
+    display: block;
+    width: 100%;
+  }
+} 
+
+/* each row has a description and a textarea */
+.row {
+    display: table
+}
+.description {
     display: table-cell;
     vertical-align: middle;
 }
-
-textarea {
-    display: inline-block;
-    padding: 15px;
-    background-color: #666666;
-    border: none;
+button, textarea {
+    height: 100px;
 }
-
 button {
-    display: inline-block;
-    padding: 15px;
-    background-color: #8db255;
-    border: none;
-    font-size: 16px;
+    width: 120px;
 }
-
-select {
-    display: inline-block;
-    padding: 15px;
-    background-color: #8db255;
+textarea {
+    background-color: #666666;
+    width: 400px; 
     border: none;
-    font-size: 16px;
-    /* position: relative;*/
+    border-radius: 12px;
 }

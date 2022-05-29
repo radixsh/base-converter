@@ -12,35 +12,41 @@
     </head>
     <body>
         <h1>Base Converter</h1>
-        <h2>Input</h2>
-        <textarea id="input" name="input" rows="4" cols="50" onblur="update()" autofocus></textarea>
-        <br><br>
-        Encoding of input: 
-        <select id="base" name="base">
-            <option value="nothing" disabled selected>Select</option>
-            <option value="ascii">ASCII</option>
-            <option value="hex">Hexadecimal</option>
-            <option value="bin">Binary</option>
-        </select>
-        <div id="alert_element"></div>
+        <div id="content">
+            <div class="column" id="right-column">
+                <h2>Input</h2>
+                <textarea id="input" name="input" rows="4" cols="50" onblur="update()" autofocus></textarea>
+                <br><br>
+                Encoding of input: 
+                <select id="base" name="base">
+                    <option value="nothing" disabled selected>Select</option>
+                    <option value="ascii">ASCII</option>
+                    <option value="hex">Hexadecimal</option>
+                    <option value="bin">Binary</option>
+                </select>
+                <div id="alert_element"></div>
+            </div>
 
-        <h2>Output, converted to different forms</h2>
-        <button onclick="copy('ascii')">Copy text</button> 
-        ASCII output here: 
-        <br>
-        <textarea id="ascii" rows="4" cols="50"></textarea>
-        <br>
-        <br>
-        <button onclick="copy('hex')">Copy text</button> 
-        Hexadecimal output here: 
-        <br>
-        <textarea id="hex" rows="4" cols="50"></textarea>
-        <br>
-        <br>
-        <button onclick="copy('bin')">Copy text</button> 
-        Binary output here: 
-        <br>
-        <textarea id="bin" rows="4" cols="50"></textarea>
-        </br>
+            <div class="column">
+                <h2>Output</h2>
+                <div class="row">
+                    <div class="description">
+                        <button onclick="copy('ascii')">Copy ASCII</button> 
+                    </div>
+                    <textarea id="ascii" rows="4" cols="50"></textarea>
+                </div>
+                <div class="row">
+                    <div class="description">
+                        <button onclick="copy('hex')">Copy hex</button> 
+                    </div>
+                    <textarea id="hex" rows="4" cols="50"></textarea>
+                </div>
+                <div class="row">
+                    <div class="description">
+                        <button onclick="copy('bin')">Copy bin</button> 
+                    </div>
+                    <textarea id="bin" rows="4" cols="50"></textarea>
+                </div>
+            </div>
     </body>
 </html>
