@@ -127,11 +127,12 @@ function update() {
     var alert_element = document.getElementById("alert_element");
     if (encoding == "ascii") {
         alert_element.innerHTML = "";
+        var ascii_output_element = document.getElementById("ascii");
+        ascii_output_element.innerHTML = text;
+
         // split(): string to array
         text = text.split(''); // string-->array just to make it consistent
         console.log("given: " + text);
-        var ascii_output_element = document.getElementById("ascii");
-        ascii_output_element.innerHTML = "[Irrelevant]";
 
         var hex_output_element = document.getElementById("hex");
         // asciiToHex(): array to array
@@ -147,6 +148,9 @@ function update() {
     } else if (encoding == "hex") {
         if (isValidHex(text)) {
             alert_element.innerHTML = "";
+            var hex_output_element = document.getElementById("hex");
+            hex_output_element.innerHTML = text;
+
             text = text.replace(/(,|\s)/g, '');
             // toPairs(): string to array
             text = toPairs(text);
@@ -154,9 +158,6 @@ function update() {
             var ascii_output_element = document.getElementById("ascii");
             // codesToChars(): array to array
             ascii_output_element.innerHTML = codesToChars(text).join("");
-
-            var hex_output_element = document.getElementById("hex");
-            hex_output_element.innerHTML = "[Irrelevant]"
 
             var bin_output_element = document.getElementById("bin");
             // convert(): array to array
@@ -174,6 +175,9 @@ function update() {
             // out the commas and spaces because there's no guarantee each
             // provided byte is properly zero-padded. Therefore, pass to
             // toBytes()
+            var bin_output_element = document.getElementById("bin");
+            bin_output_element.innerHTML = text;
+
             text = toBytes(text);
 
             var ascii_output_element = document.getElementById("ascii");
@@ -183,9 +187,6 @@ function update() {
             var hex_output_element = document.getElementById("hex");
             // convert(): array to array
             hex_output_element.innerHTML = convert(text, 2, 16).join(" ");
-
-            var bin_output_element = document.getElementById("bin");
-            bin_output_element.innerHTML = "[Irrelevant]"
         } else {
             alert_element.innerHTML = "Invalid binary string";
             clear(document);
