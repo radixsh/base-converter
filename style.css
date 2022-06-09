@@ -26,7 +26,7 @@ button, select {
     width: 100%;
 }
 
-#right-column {
+#left-column {
     text-align: right;
     padding: 15px;
 }
@@ -45,19 +45,18 @@ button, select {
 
 /* each row has a description and a textarea */
 .row {
-    display: table
+    display: table;
 }
 .description {
     display: table-cell;
     vertical-align: middle;
 }
-button, textarea {
-    height: 100px;
-}
 button {
+    height: 100px;
     width: 120px;
 }
 textarea {
+    height: 100px;
     background-color: #666666;
     width: 400px; 
     border: none;
