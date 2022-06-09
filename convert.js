@@ -18,32 +18,32 @@ function convert(arg, original_base, new_base) { // array-->array
     if (original_base == new_base)
         return arg;
     if (Array.isArray(arg)) {
-        console.log("convert(): " + arg + " from " + original_base + " to " + new_base);
+        // console.log("convert(): " + arg + " from " + original_base + " to " + new_base);
         var to_return = [];
         for (let i = 0; i < arg.length; i++) {
             var item = arg[i];
             to_return.push(parseInt(item, original_base).toString(new_base));
         }
     } else {
-        console.log("convert(): " + arg + " from " + original_base + " to " + new_base);
+        // console.log("convert(): " + arg + " from " + original_base + " to " + new_base);
         var to_return = parseInt(arg, original_base).toString(new_base);
     }
-    console.log("becomes " + to_return);
+    // console.log("becomes " + to_return);
     return to_return;
 }
 
 function hexToAscii(hex_array) {  // array-->array
     // https://stackoverflow.com/questions/55549405/split-string-every-2-character-into-array#55549473
     // https://stackoverflow.com/questions/3745666/how-to-convert-from-hex-to-ascii-in-javascript
-    console.log("hex string passed to hexToAscii(): " + hex_array);
+    // console.log("hex string passed to hexToAscii(): " + hex_array);
     // hex_string = hex_string.toString();
     var arr = []; // str = '';
     for (let i = 0; i < hex_array.length; i++) {
         var current = hex_array[i];
-        console.log("Current: " + current);
+        // console.log("Current: " + current);
         arr.push(String.fromCharCode(parseInt(current, 16)));
     }
-    console.log("hex-->ascii array: " + arr);
+    // console.log("hex-->ascii array: " + arr);
     return arr;
 }
 
@@ -57,7 +57,7 @@ function asciiToHex(ascii_array) {  // array-->array
         var hex = Number(ascii_string.charCodeAt(n)).toString(16);
         hex_values.push(hex);
     }
-    console.log("eventually asciiToHex returns " + hex_values);
+    // console.log("eventually asciiToHex returns " + hex_values);
     return hex_values;
 }
 
@@ -98,17 +98,18 @@ function toBytes(binary) { // (string or array) to array, like when starting fro
         }
         return binary;
     } else {  // if given a single long binary string, like in case 3
-        if (binary.indexOf(/\s/) == -1) {  // if no spaces in it
-            console.log("No spaces in the given binary string");
+        if (binary.indexOf(/\s/) != -1) {  
+            // if it is a single long binary string with space-delimiters
+            return binary.split(' ');
+        } else {
+            // console.log("No spaces in the given binary string");
             var bytes = [];
             for (var i = 0; i < binary.length; i += 9) {
                 var tmp = binary.substring(i, i + 8);
-                console.log("tmp: " + tmp);
+                // console.log("tmp: " + tmp);
                 bytes.push(tmp);
             }
             return bytes;
-        } else {  // else, if it is a single long binary string with space-delimiters
-            return binary.split(' ');
         }
     }
 }
@@ -121,14 +122,13 @@ function toPairs(hex_string) { // (string or array) to array
     var pairs = [];
     for (var i = 0; i < hex_string.length - 1; i += 2)
         pairs.push(hex_string.substring(i, i + 2));
-    console.log("resulting pairs: " + pairs);
+    // console.log("resulting pairs: " + pairs);
     return pairs;
 }
 
 function clear(document) {
-    for (let i = 0; i < available_encodings.length; i++) {
+    for (let i = 0; i < available_encodings.length; i++)
         document.getElementById(available_encodings[i]).innerHTML = "";
-    }
 }
 
 function ascii(document) {
@@ -137,7 +137,7 @@ function ascii(document) {
 
     // split(): string to array
     text = text.split(''); // string-->array just to make it consistent
-    console.log("given: " + text);
+    // console.log("given: " + text);
 
     var hex_array_element = document.getElementById("hex");
     // asciiToHex(): array to array
@@ -239,10 +239,11 @@ function dec(document) {
     }
 }
 
+// https://stackoverflow.com/questions/1144297/ways-to-call-a-javascript-function-using-the-value-of-a-string-variable
 function runFn(name, args) {
     var fn = window[name];
     if (typeof fn !== 'function') {
-        console.log("Not a func");
+        console.log("Not a function!!");
         return;
     }
     fn.apply(window, args);
@@ -253,10 +254,9 @@ function update() {
     var input = document.getElementById("input");
     text = input.value;
 
-    if (!text) {
-        clear(document);
-        return;
-    }
+    if (!text)
+        return clear(document);
+
     var alert_element = document.getElementById("alert_element");
     alert_element.innerHTML = "";
     
@@ -266,5 +266,5 @@ function update() {
 function copy(thing) {
     // https://stackoverflow.com/questions/400212/how-do-i-copy-to-the-clipboard-in-javascript
     var text = document.getElementById(thing).innerHTML;
-    window.prompt("Copy to clipboard: Ctrl+C, Enter", text);
+    window.prompt("Copy to clipboard: Ctrl+C, Enter/Esc", text);
 }
