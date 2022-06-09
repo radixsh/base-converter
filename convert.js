@@ -1,4 +1,5 @@
 var encoding;
+var available_encodings = ["ascii", "hex", "bin", "dec"];
 
 document.addEventListener("DOMContentLoaded", function() {
     var base = document.getElementById("base");
@@ -12,23 +13,29 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
-function convert(number_array, original_base, new_base) { // array-->array
+function convert(arg, original_base, new_base) { // array-->array
+    // https://stackoverflow.com/questions/4775722/how-can-i-check-if-an-object-is-an-array
     if (original_base == new_base)
-        return number_array;
-    console.log("convert(): " + number_array + " from " + original_base + " to " + new_base);
-    var to_return = [];
-    for (let i = 0; i < number_array.length; i++) {
-        var hex = number_array[i];
-        to_return.push(parseInt(hex, original_base).toString(new_base));
+        return arg;
+    if (Array.isArray(arg)) {
+        console.log("convert(): " + arg + " from " + original_base + " to " + new_base);
+        var to_return = [];
+        for (let i = 0; i < arg.length; i++) {
+            var item = arg[i];
+            to_return.push(parseInt(item, original_base).toString(new_base));
+        }
+    } else {
+        console.log("convert(): " + arg + " from " + original_base + " to " + new_base);
+        var to_return = parseInt(arg, original_base).toString(new_base);
     }
     console.log("becomes " + to_return);
     return to_return;
 }
 
-function codesToChars(hex_array) {  // array-->array
+function hexToAscii(hex_array) {  // array-->array
     // https://stackoverflow.com/questions/55549405/split-string-every-2-character-into-array#55549473
     // https://stackoverflow.com/questions/3745666/how-to-convert-from-hex-to-ascii-in-javascript
-    console.log("hex string passed to codesToChars(): " + hex_array);
+    console.log("hex string passed to hexToAscii(): " + hex_array);
     // hex_string = hex_string.toString();
     var arr = []; // str = '';
     for (let i = 0; i < hex_array.length; i++) {
@@ -110,9 +117,9 @@ function toPairs(hex_string) { // (string or array) to array
 }
 
 function clear(document) {
-    document.getElementById("ascii").innerHTML = "";
-    document.getElementById("hex").innerHTML = "";
-    document.getElementById("bin").innerHTML = "";
+    for (let i = 0; i < available_encodings.length; i++) {
+        document.getElementById(available_encodings[i]).innerHTML = "";
+    }
 }
 
 function ascii(document) {
@@ -148,8 +155,8 @@ function hex(document) {
         text = toPairs(text);
 
         var ascii_output_element = document.getElementById("ascii");
-        // codesToChars(): array to array
-        ascii_output_element.innerHTML = codesToChars(text).join("");
+        // hexToAscii(): array to array
+        ascii_output_element.innerHTML = hexToAscii(text).join("");
 
         var bin_output_element = document.getElementById("bin");
         // convert(): array to array
@@ -162,7 +169,10 @@ function hex(document) {
 }
 
 function bin(document) {
-    if (isValidBin(text)) { // text.match("[01 +]")) {
+    if (!isValidBin(text)) { 
+        alert_element.innerHTML = "Invalid binary string";
+        clear(document);
+    } else {  // text.match("[01 +]")) {
         alert_element.innerHTML = "";
         // 00110011 01010101 --> 0011001101010101
         // To turn it into a continuous binary string, we cannot just regex
@@ -176,37 +186,38 @@ function bin(document) {
 
         var ascii_output_element = document.getElementById("ascii");
         // convert(): array to array
-        ascii_output_element.innerHTML = codesToChars(convert(text, 2, 16)).join("");
-
+        ascii_output_element.innerHTML= hexToAscii(convert(text, 2, 16)).join("");
+        
         var hex_output_element = document.getElementById("hex");
         // convert(): array to array
-        hex_output_element.innerHTML = convert(text, 2, 16).join(" ");
-    } else {
-        alert_element.innerHTML = "Invalid binary string";
-        clear(document);
+        var hex_array = convert(text, 2, 16);
+        hex_output_element.innerHTML = hex_array.join(" ");
+
+        var dec_output_element = document.getElementById("dec");
+        dec_output_element.innerHTML = convert(hex_array, 16, 10).join("");
     }
 }
 
 function dec(document) {
-    alert_element.innerHTML = "";
     var dec_output_element = document.getElementById("dec");
     dec_output_element.innerHTML = text;
 
     // split(): string to array
-    text = text.split(''); // string-->array just to make it consistent
+    text = text.split(' '); // string-->array just to make it consistent
     console.log("given: " + text);
-
+    
     var hex_output_element = document.getElementById("hex");
     // decToHex(): array to array
-    var hex_output = decToHex(text);
-    hex_output_element.innerHTML = hex_output.join(" ");
+    var hex_array = convert(text, 10, 16); // decToHex(text);
+    // console.log("hex_array: " + hex_array);
+    hex_output_element.innerHTML = hex_array.join(" ");
+    // console.log("hex_output_element.innerHTML: " + hex_output.join(" "));
+
+    var ascii_output_element = document.getElementById("ascii");
+    ascii_output_element.innerHTML = hexToAscii(hex_array).join("");
 
     var bin_output_element = document.getElementById("bin");
-    // decToHex(): array to array
-    // convert(): array to array
-    // toBytes(): (array or string) to array
-    var bin_output = convert(hex_output, 16, 2);
-    bin_output_element.innerHTML = toBytes(bin_output).join(" ");
+    bin_output_element.innerHTML = toBytes(convert(hex_array, 16, 2)).join(" ");
 }
 
 function update() {
@@ -219,6 +230,8 @@ function update() {
         return;
     }
     var alert_element = document.getElementById("alert_element");
+    alert_element.innerHTML = "";
+    
     if (encoding == "ascii") {
         ascii(document);
     } else if (encoding == "hex") {
