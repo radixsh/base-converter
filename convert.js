@@ -70,6 +70,15 @@ function isValidHex(text) {
     return true;
 }
 
+function isValidDec(text) {
+    // https://www.tutorialspoint.com/finding-the-validity-of-a-hex-code-in-javascript
+    const legend = '0123456789 ';
+    for (let i = 0; i < text.length; i++)
+        if (!legend.includes(text[i]))
+            return false;
+    return true;
+}
+
 function isValidBin(text) {
     // https://stackoverflow.com/questions/49743318/fast-way-to-check-if-a-javascript-array-is-binary-contains-only-0-and-1
     for (let i = 0; i < text.length; i++)
@@ -123,7 +132,6 @@ function clear(document) {
 }
 
 function ascii(document) {
-    alert_element.innerHTML = "";
     var ascii_output_element = document.getElementById("ascii");
     ascii_output_element.innerHTML = text;
 
@@ -131,21 +139,27 @@ function ascii(document) {
     text = text.split(''); // string-->array just to make it consistent
     console.log("given: " + text);
 
-    var hex_output_element = document.getElementById("hex");
+    var hex_array_element = document.getElementById("hex");
     // asciiToHex(): array to array
-    var hex_output = asciiToHex(text);
-    hex_output_element.innerHTML = hex_output.join(" ");
+    var hex_array = asciiToHex(text);
+    hex_array_element.innerHTML = hex_array.join(" ");
 
     var bin_output_element = document.getElementById("bin");
     // asciiToHex(): array to array
     // convert(): array to array
     // toBytes(): (array or string) to array
-    var bin_output = convert(hex_output, 16, 2);
+    var bin_output = convert(hex_array, 16, 2);
     bin_output_element.innerHTML = toBytes(bin_output).join(" ");
+    
+    var dec_output_element = document.getElementById("dec");
+    dec_output_element.innerHTML = convert(hex_array, 16, 10).join(" ");
 }
 
 function hex(document) {
-    if (isValidHex(text)) {
+    if (!isValidHex(text)) {
+        alert_element.innerHTML = "Invalid hex string";
+        clear(document);
+    } else {
         alert_element.innerHTML = "";
         var hex_output_element = document.getElementById("hex");
         hex_output_element.innerHTML = text;
@@ -162,9 +176,9 @@ function hex(document) {
         // convert(): array to array
         // toBytes(): (array or string) to array
         bin_output_element.innerHTML = toBytes(convert(text, 16, 2)).join(" ");
-    } else {
-        alert_element.innerHTML = "Invalid hex string";
-        clear(document);
+
+        var dec_output_element = document.getElementById("dec");
+        dec_output_element.innerHTML = convert(text, 16, 10).join(" ");
     }
 }
 
@@ -194,30 +208,44 @@ function bin(document) {
         hex_output_element.innerHTML = hex_array.join(" ");
 
         var dec_output_element = document.getElementById("dec");
-        dec_output_element.innerHTML = convert(hex_array, 16, 10).join("");
+        dec_output_element.innerHTML = convert(hex_array, 16, 10).join(" ");
     }
 }
 
 function dec(document) {
-    var dec_output_element = document.getElementById("dec");
-    dec_output_element.innerHTML = text;
+    if (!isValidDec(text)) { 
+        alert_element.innerHTML = "Invalid binary string";
+        clear(document);
+    } else {
+        var dec_output_element = document.getElementById("dec");
+        dec_output_element.innerHTML = text;
 
-    // split(): string to array
-    text = text.split(' '); // string-->array just to make it consistent
-    console.log("given: " + text);
-    
-    var hex_output_element = document.getElementById("hex");
-    // decToHex(): array to array
-    var hex_array = convert(text, 10, 16); // decToHex(text);
-    // console.log("hex_array: " + hex_array);
-    hex_output_element.innerHTML = hex_array.join(" ");
-    // console.log("hex_output_element.innerHTML: " + hex_output.join(" "));
+        // split(): string to array
+        text = text.split(' '); // string-->array just to make it consistent
+        console.log("given: " + text);
 
-    var ascii_output_element = document.getElementById("ascii");
-    ascii_output_element.innerHTML = hexToAscii(hex_array).join("");
+        var hex_output_element = document.getElementById("hex");
+        // decToHex(): array to array
+        var hex_array = convert(text, 10, 16); // decToHex(text);
+        // console.log("hex_array: " + hex_array);
+        hex_output_element.innerHTML = hex_array.join(" ");
+        // console.log("hex_output_element.innerHTML: " + hex_output.join(" "));
 
-    var bin_output_element = document.getElementById("bin");
-    bin_output_element.innerHTML = toBytes(convert(hex_array, 16, 2)).join(" ");
+        var ascii_output_element = document.getElementById("ascii");
+        ascii_output_element.innerHTML = hexToAscii(hex_array).join("");
+
+        var bin_output_element = document.getElementById("bin");
+        bin_output_element.innerHTML = toBytes(convert(hex_array, 16, 2)).join(" ");
+    }
+}
+
+function runFn(name, args) {
+    var fn = window[name];
+    if (typeof fn !== 'function') {
+        console.log("Not a func");
+        return;
+    }
+    fn.apply(window, args);
 }
 
 function update() {
@@ -232,15 +260,7 @@ function update() {
     var alert_element = document.getElementById("alert_element");
     alert_element.innerHTML = "";
     
-    if (encoding == "ascii") {
-        ascii(document);
-    } else if (encoding == "hex") {
-        hex(document);
-    } else if (encoding == "bin") {
-        bin(document);
-    } else if (encoding == "dec") {
-        dec(document);
-    }
+    runFn(encoding, [document]);
 }
 
 function copy(thing) {
