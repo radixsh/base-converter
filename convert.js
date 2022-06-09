@@ -115,6 +115,100 @@ function clear(document) {
     document.getElementById("bin").innerHTML = "";
 }
 
+function ascii(document) {
+    alert_element.innerHTML = "";
+    var ascii_output_element = document.getElementById("ascii");
+    ascii_output_element.innerHTML = text;
+
+    // split(): string to array
+    text = text.split(''); // string-->array just to make it consistent
+    console.log("given: " + text);
+
+    var hex_output_element = document.getElementById("hex");
+    // asciiToHex(): array to array
+    var hex_output = asciiToHex(text);
+    hex_output_element.innerHTML = hex_output.join(" ");
+
+    var bin_output_element = document.getElementById("bin");
+    // asciiToHex(): array to array
+    // convert(): array to array
+    // toBytes(): (array or string) to array
+    var bin_output = convert(hex_output, 16, 2);
+    bin_output_element.innerHTML = toBytes(bin_output).join(" ");
+}
+
+function hex(document) {
+    if (isValidHex(text)) {
+        alert_element.innerHTML = "";
+        var hex_output_element = document.getElementById("hex");
+        hex_output_element.innerHTML = text;
+
+        text = text.replace(/(,|\s)/g, '');
+        // toPairs(): string to array
+        text = toPairs(text);
+
+        var ascii_output_element = document.getElementById("ascii");
+        // codesToChars(): array to array
+        ascii_output_element.innerHTML = codesToChars(text).join("");
+
+        var bin_output_element = document.getElementById("bin");
+        // convert(): array to array
+        // toBytes(): (array or string) to array
+        bin_output_element.innerHTML = toBytes(convert(text, 16, 2)).join(" ");
+    } else {
+        alert_element.innerHTML = "Invalid hex string";
+        clear(document);
+    }
+}
+
+function bin(document) {
+    if (isValidBin(text)) { // text.match("[01 +]")) {
+        alert_element.innerHTML = "";
+        // 00110011 01010101 --> 0011001101010101
+        // To turn it into a continuous binary string, we cannot just regex
+        // out the commas and spaces because there's no guarantee each
+        // provided byte is properly zero-padded. Therefore, pass to
+        // toBytes()
+        var bin_output_element = document.getElementById("bin");
+        bin_output_element.innerHTML = text;
+
+        text = toBytes(text);
+
+        var ascii_output_element = document.getElementById("ascii");
+        // convert(): array to array
+        ascii_output_element.innerHTML = codesToChars(convert(text, 2, 16)).join("");
+
+        var hex_output_element = document.getElementById("hex");
+        // convert(): array to array
+        hex_output_element.innerHTML = convert(text, 2, 16).join(" ");
+    } else {
+        alert_element.innerHTML = "Invalid binary string";
+        clear(document);
+    }
+}
+
+function dec(document) {
+    alert_element.innerHTML = "";
+    var dec_output_element = document.getElementById("dec");
+    dec_output_element.innerHTML = text;
+
+    // split(): string to array
+    text = text.split(''); // string-->array just to make it consistent
+    console.log("given: " + text);
+
+    var hex_output_element = document.getElementById("hex");
+    // decToHex(): array to array
+    var hex_output = decToHex(text);
+    hex_output_element.innerHTML = hex_output.join(" ");
+
+    var bin_output_element = document.getElementById("bin");
+    // decToHex(): array to array
+    // convert(): array to array
+    // toBytes(): (array or string) to array
+    var bin_output = convert(hex_output, 16, 2);
+    bin_output_element.innerHTML = toBytes(bin_output).join(" ");
+}
+
 function update() {
     // https://stackoverflow.com/questions/24644345/how-to-detect-focus-changed-event-in-js
     var input = document.getElementById("input");
@@ -126,71 +220,13 @@ function update() {
     }
     var alert_element = document.getElementById("alert_element");
     if (encoding == "ascii") {
-        alert_element.innerHTML = "";
-        var ascii_output_element = document.getElementById("ascii");
-        ascii_output_element.innerHTML = text;
-
-        // split(): string to array
-        text = text.split(''); // string-->array just to make it consistent
-        console.log("given: " + text);
-
-        var hex_output_element = document.getElementById("hex");
-        // asciiToHex(): array to array
-        var hex_output = asciiToHex(text);
-        hex_output_element.innerHTML = hex_output.join(" ");
-
-        var bin_output_element = document.getElementById("bin");
-        // asciiToHex(): array to array
-        // convert(): array to array
-        // toBytes(): (array or string) to array
-        var bin_output = convert(hex_output, 16, 2);
-        bin_output_element.innerHTML = toBytes(bin_output).join(" ");
+        ascii(document);
     } else if (encoding == "hex") {
-        if (isValidHex(text)) {
-            alert_element.innerHTML = "";
-            var hex_output_element = document.getElementById("hex");
-            hex_output_element.innerHTML = text;
-
-            text = text.replace(/(,|\s)/g, '');
-            // toPairs(): string to array
-            text = toPairs(text);
-
-            var ascii_output_element = document.getElementById("ascii");
-            // codesToChars(): array to array
-            ascii_output_element.innerHTML = codesToChars(text).join("");
-
-            var bin_output_element = document.getElementById("bin");
-            // convert(): array to array
-            // toBytes(): (array or string) to array
-            bin_output_element.innerHTML = toBytes(convert(text, 16, 2)).join(" ");
-        } else {
-            alert_element.innerHTML = "Invalid hex string";
-            clear(document);
-        }
+        hex(document);
     } else if (encoding == "bin") {
-        if (isValidBin(text)) { // text.match("[01 +]")) {
-            alert_element.innerHTML = "";
-            // 00110011 01010101 --> 0011001101010101
-            // To turn it into a continuous binary string, we cannot just regex
-            // out the commas and spaces because there's no guarantee each
-            // provided byte is properly zero-padded. Therefore, pass to
-            // toBytes()
-            var bin_output_element = document.getElementById("bin");
-            bin_output_element.innerHTML = text;
-
-            text = toBytes(text);
-
-            var ascii_output_element = document.getElementById("ascii");
-            // convert(): array to array
-            ascii_output_element.innerHTML = codesToChars(convert(text, 2, 16)).join("");
-
-            var hex_output_element = document.getElementById("hex");
-            // convert(): array to array
-            hex_output_element.innerHTML = convert(text, 2, 16).join(" ");
-        } else {
-            alert_element.innerHTML = "Invalid binary string";
-            clear(document);
-        }
+        bin(document);
+    } else if (encoding == "dec") {
+        dec(document);
     }
 }
 
