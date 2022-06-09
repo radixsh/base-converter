@@ -29,31 +29,8 @@
             </div>
 
             <div class="column">
-                <h2>Output</h2>
-                <div class="row">
-                    <div class="description">
-                        <button onclick="copy('ascii')">Copy ASCII</button> 
-                    </div>
-                    <textarea id="ascii" rows="4" cols="50"></textarea>
-                </div>
-                <div class="row">
-                    <div class="description">
-                        <button onclick="copy('hex')">Copy hex</button> 
-                    </div>
-                    <textarea id="hex" rows="4" cols="50"></textarea>
-                </div>
-                <div class="row">
-                    <div class="description">
-                        <button onclick="copy('bin')">Copy bin</button> 
-                    </div>
-                    <textarea id="bin" rows="4" cols="50"></textarea>
-                </div>
-                <div class="row">
-                    <div class="description">
-                        <button onclick="copy('dec')">Copy dec</button> 
-                    </div>
-                    <textarea id="dec" rows="4" cols="50"></textarea>
-                </div>
+                <h2 id="output">Output</h2>
+                <script src="output.js"></script>
             </div>
     </body>
 </html>
